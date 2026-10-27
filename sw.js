@@ -1,8 +1,8 @@
 // Service worker : garde l'app et pdf.js en cache pour qu'elle marche hors connexion.
 // Aucun document ne passe par ici : les fichiers choisis ne quittent jamais la page.
-const VERSION = 'filigrane-2';  // à changer à chaque mise à jour : les iPhone reprennent alors la nouvelle version
-const APP = ['./', 'index.html', 'style.css', 'app.js', 'moteur.js', 'calcul.js', 'worker.js', 'manifest.webmanifest',
-  'icone-180.png', 'icone-192.png', 'icone-512.png'];
+const VERSION = 'filigrane-3';  // à changer à chaque mise à jour : les iPhone reprennent alors la nouvelle version
+const APP = ['./', 'index.html', 'style.css', 'app.js', 'etat.js', 'lots.js', 'planche.js', 'moteur.js', 'calcul.js',
+  'worker.js', 'manifest.webmanifest', 'icone-180.png', 'icone-192.png', 'icone-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(APP)).then(() => self.skipWaiting()));

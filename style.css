@@ -64,23 +64,25 @@ button, input, select { font: inherit; color: inherit; }
   max-width: 1100px; margin: 0 auto;
   display: grid; gap: 0 28px;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "install" "docs" "dest" "apercu" "reglages" "taille";
+  grid-template-areas: "install" "accueil" "docs" "dest" "reglages" "apercu";
 }
 .zone-install { grid-area: install; }
 .zone-docs { grid-area: docs; }
 .zone-dest { grid-area: dest; }
 .zone-apercu { grid-area: apercu; }
 .zone-reglages { grid-area: reglages; }
-.zone-taille { grid-area: taille; }
+.zone-accueil { grid-area: accueil; }
 
 @media (min-width: 900px) {
   .grille {
     grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
-    grid-template-areas: "install apercu" "docs apercu" "dest apercu" "taille apercu" "reglages apercu" ". apercu";
-    grid-template-rows: repeat(5, auto) 1fr;  /* l'aperçu, plus haut, n'écarte pas les groupes de gauche */
+    grid-template-areas: "install apercu" "docs apercu" "dest apercu" "reglages apercu" ". apercu";
+    grid-template-rows: repeat(4, auto) 1fr;  /* l'aperçu, plus haut, n'écarte pas les groupes de gauche */
     align-items: start;
   }
   .zone-apercu { position: sticky; top: 16px; }
+  .zone-accueil { grid-area: apercu; }  /* à la place de l'aperçu, qui est masqué */
+  .accueil { border: 2px dashed var(--separateur); background: none; padding: 56px 32px; }
 }
 
 /* Groupes et cartes */
@@ -135,7 +137,7 @@ details.groupe[open] summary::after { transform: rotate(90deg); }
 .champ .droite { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 .champ input[type=date] { text-align: right; flex: none; }
 .champ input[type=date]:disabled { opacity: 0.4; }
-.champ select { appearance: none; color: var(--secondaire); text-align-last: right; cursor: pointer; }
+.champ select { appearance: none; color: var(--accent); text-align-last: right; cursor: pointer; }
 
 /* Interrupteur façon iOS */
 .interrupteur {
@@ -168,8 +170,7 @@ details.groupe[open] summary::after { transform: rotate(90deg); }
 }
 .segmente input:checked + span { background: var(--carte); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); }
 .segmente input:focus-visible + span { outline: 3px solid var(--accent); }
-.zone-taille .segmente, .zone-docs .segmente { margin-bottom: 0; }
-.zone-taille .carte { margin-top: 10px; }
+.zone-docs .segmente { margin-bottom: 0; }
 .segmente.petit { margin: 0 0 0 auto; width: 170px; }
 
 /* Pastilles de couleur */
@@ -382,7 +383,7 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
 .carte.espace { margin-top: 0; }
 .details > summary { list-style: none; cursor: pointer; }
 .details > summary::-webkit-details-marker { display: none; }
-.details > summary::after { content: "›"; color: var(--secondaire); margin-left: 8px; transition: transform 0.2s; }
+.details > summary::after { content: "›"; display: inline-block; color: var(--secondaire); margin-left: 8px; transition: transform 0.2s; }
 .details[open] > summary::after { transform: rotate(90deg); }
 .details .perso { margin-left: auto; color: var(--secondaire); font-size: 15px; }
 .details .perso[hidden] { display: none; }
@@ -395,3 +396,26 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
 .apercu canvas[hidden] { display: none; }  /* « display: block » ci-dessus l'emporterait sur hidden */
 #pivoter-g, #pivoter-d { font-size: 22px; line-height: 1; }
 #page-num { white-space: nowrap; }
+
+/* Lignes masquées (date ou taille personnalisées) : display: flex l'emporterait sur hidden */
+.ligne[hidden] { display: none; }
+.details .note.dedans { margin: 4px 16px 12px; }
+
+/* Accueil, sans document */
+.accueil {
+  background: var(--carte); border-radius: 14px; padding: 32px 24px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.accueil h2 { font-size: 22px; font-weight: 600; text-transform: none; letter-spacing: 0; color: inherit; margin: 0; }
+.accueil p { margin: 0; color: var(--secondaire); }
+.accueil-icone {
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-texte); font-size: 30px; font-weight: 600;
+}
+.accueil label.principal { display: block; max-width: 320px; margin-top: 8px; text-align: center; }
+.accueil .note { margin-top: 8px; }
+
+/* Filigraner sans destinataire : le champ s'entoure un instant */
+.champ.signale { animation: signale 0.5s ease-in-out 3; border-radius: 10px; }
+@keyframes signale { 50% { box-shadow: inset 0 0 0 2px var(--accent); } }
+@media (prefers-reduced-motion: reduce) { .champ.signale { animation: none; box-shadow: inset 0 0 0 2px var(--accent); } }

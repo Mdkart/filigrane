@@ -60,6 +60,18 @@
       </div>
     </section>
 
+    <!-- sans document : par où commencer (l'aperçu d'exemple à la demande) -->
+    <section class="groupe zone-accueil" id="accueil" aria-labelledby="t-accueil" hidden>
+      <div class="accueil">
+        <div class="accueil-icone" aria-hidden="true">＋</div>
+        <h2 id="t-accueil">Ajoute tes documents</h2>
+        <p>Carte d’identité, passeport, avis d’imposition, fiches de paie…<br>PDF, photos (JPG, PNG, HEIC).</p>
+        <label class="principal" for="choisir">Choisir des documents</label>
+        <button type="button" class="lien" id="voir-exemple">Voir un exemple</button>
+        <p class="note">Rien ne quitte cet appareil : le filigrane est calculé ici.</p>
+      </div>
+    </section>
+
     <!-- un PDF par ligne (ou par groupe) : ce qui sera produit -->
     <section class="groupe zone-docs" aria-labelledby="t-docs">
       <h2 id="t-docs" class="titre-action">
@@ -102,16 +114,38 @@
           <span>Motif</span>
           <input id="motif" list="liste-motifs" placeholder="ex. Dossier de location" autocomplete="off" enterkeyhint="done">
         </label>
-        <div class="ligne champ">
-          <label for="avec-date">Date</label>
-          <div class="droite">
-            <input type="date" id="date" aria-label="Date affichée">
-            <input type="checkbox" id="avec-date" class="interrupteur" aria-label="Ajouter la date">
-          </div>
-        </div>
+        <label class="ligne champ">
+          <span>Date</span>
+          <select id="choix-date">
+            <option value="aujourdhui">Aujourd’hui</option>
+            <option value="autre">Autre date…</option>
+            <option value="sans">Sans date</option>
+          </select>
+        </label>
+        <label class="ligne champ" id="ligne-date" hidden>
+          <span>Le</span>
+          <input type="date" id="date" aria-label="Date affichée">
+        </label>
+        <label class="ligne champ">
+          <span>Taille</span>
+          <select id="taille">
+            <option value="0">Normale</option>
+            <option value="500">Moins de 500 Ko</option>
+            <option value="1024">Moins de 1 Mo</option>
+            <option value="2048">Moins de 2 Mo</option>
+            <option value="5120">Moins de 5 Mo</option>
+            <option value="10240">Moins de 10 Mo</option>
+            <option value="-1">Autre taille…</option>
+          </select>
+        </label>
+        <label class="ligne champ" id="ligne-cible" hidden>
+          <span>Moins de</span>
+          <span class="droite"><input type="text" id="cible-mo" inputmode="decimal" size="4" aria-label="Taille maximale en Mo"> Mo</span>
+        </label>
       </div>
       <datalist id="liste-dest"></datalist>
       <datalist id="liste-motifs"></datalist>
+      <p class="note" id="note-taille">Meilleure qualité.</p>
       <p class="note phrase" id="phrase"></p>
     </section>
 
@@ -159,60 +193,40 @@
         <label><input type="radio" name="force" value="standard"><span>Standard</span></label>
         <label><input type="radio" name="force" value="marque"><span>Marqué</span></label>
       </div>
-      <div class="carte espace">
-        <div class="ligne">
-          <span>Couleur</span>
-          <div class="pastilles" id="couleurs" role="radiogroup" aria-label="Couleur">
-            <button type="button" class="gris" data-couleur="#737373" aria-label="Gris"></button>
-            <button type="button" class="bleu" data-couleur="#1a40b3" aria-label="Bleu"></button>
-            <button type="button" class="rouge" data-couleur="#cc1a1a" aria-label="Rouge"></button>
-            <button type="button" class="noir" data-couleur="#000000" aria-label="Noir"></button>
-            <label class="pastille-autre" aria-label="Autre couleur"><input type="color" id="couleur-autre"></label>
-          </div>
-        </div>
+      <div class="carte">
         <details class="details" id="details">
-          <summary class="ligne"><span>Réglages détaillés</span><span class="perso" id="perso">Personnalisé</span></summary>
+          <summary class="ligne"><span>Couleur et réglages détaillés</span><span class="perso" id="perso">Personnalisé</span></summary>
+          <div class="ligne">
+            <span>Couleur</span>
+            <div class="pastilles" id="couleurs" role="radiogroup" aria-label="Couleur">
+              <button type="button" class="gris" data-couleur="#737373" aria-label="Gris"></button>
+              <button type="button" class="bleu" data-couleur="#1a40b3" aria-label="Bleu"></button>
+              <button type="button" class="rouge" data-couleur="#cc1a1a" aria-label="Rouge"></button>
+              <button type="button" class="noir" data-couleur="#000000" aria-label="Noir"></button>
+              <label class="pastille-autre" aria-label="Autre couleur"><input type="color" id="couleur-autre"></label>
+            </div>
+          </div>
           <label class="ligne curseur"><span>Intensité</span><input type="range" id="opacite" min="0.08" max="0.85" step="0.01"><output for="opacite"></output></label>
           <label class="ligne curseur"><span>Taille</span><input type="range" id="echelle" min="0.5" max="2" step="0.05"><output for="echelle"></output></label>
           <label class="ligne curseur"><span>Densité</span><input type="range" id="densite" min="0.5" max="2" step="0.05"><output for="densite"></output></label>
           <label class="ligne curseur"><span>Inclinaison</span><input type="range" id="angle" min="0" max="90" step="1"><output for="angle"></output></label>
-        </details>
-        <div class="ligne">
-          <span>Texte</span>
-          <div class="segmente petit" role="radiogroup" aria-label="Texte">
-            <label><input type="radio" name="style" value="ondule"><span>Ondulé</span></label>
-            <label><input type="radio" name="style" value="droit"><span>Droit</span></label>
+          <div class="ligne">
+            <span>Texte</span>
+            <div class="segmente petit" role="radiogroup" aria-label="Texte">
+              <label><input type="radio" name="style" value="ondule"><span>Ondulé</span></label>
+              <label><input type="radio" name="style" value="droit"><span>Droit</span></label>
+            </div>
           </div>
-        </div>
-        <label class="ligne"><span>Deux diagonales croisées</span><input type="checkbox" id="diagonales" class="interrupteur"></label>
-        <label class="ligne"><span>Fond guilloché</span><input type="checkbox" id="guilloche" class="interrupteur"></label>
-        <label class="ligne"><span>Micro-texte</span><input type="checkbox" id="micro_texte" class="interrupteur"></label>
-        <button type="button" class="ligne action" id="defaut">Valeurs par défaut</button>
+          <label class="ligne"><span>Deux diagonales croisées</span><input type="checkbox" id="diagonales" class="interrupteur"></label>
+          <label class="ligne"><span>Fond guilloché</span><input type="checkbox" id="guilloche" class="interrupteur"></label>
+          <label class="ligne"><span>Micro-texte</span><input type="checkbox" id="micro_texte" class="interrupteur"></label>
+          <button type="button" class="ligne action" id="defaut">Valeurs par défaut</button>
+          <p class="note dedans">La couleur s’éclaircit toute seule sur les zones sombres (photo d’identité). Le micro-texte est une
+            ligne minuscule en haut et en bas, brouillée par une photocopie.</p>
+        </details>
       </div>
-      <p class="note">La couleur s’éclaircit toute seule sur les zones sombres (photo d’identité). Le micro-texte est une ligne
-        minuscule en haut et en bas, brouillée par une photocopie.</p>
     </section>
 
-    <section class="groupe zone-taille" aria-labelledby="t-taille">
-      <h2 id="t-taille">Taille du fichier</h2>
-      <div class="segmente" role="radiogroup" aria-label="Taille du fichier">
-        <label><input type="radio" name="taille" value="normale"><span>Normale</span></label>
-        <label><input type="radio" name="taille" value="limitee"><span>Limitée</span></label>
-      </div>
-      <div class="carte" id="carte-cible" hidden>
-        <label class="ligne champ">
-          <span>Moins de</span>
-          <select id="cible">
-            <option value="500">500 Ko</option>
-            <option value="1024">1 Mo</option>
-            <option value="2048">2 Mo</option>
-            <option value="5120">5 Mo</option>
-            <option value="10240">10 Mo</option>
-          </select>
-        </label>
-      </div>
-      <p class="note" id="note-taille">Meilleure qualité.</p>
-    </section>
   </main>
 
   <div class="barre-action">
