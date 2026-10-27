@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- règles de sécurité : rien ne peut être envoyé ailleurs (connect-src), aucun script étranger hormis
+       pdf.js (cdnjs, version figée), aucun formulaire, aucun cadre. Les documents restent dans l'appareil. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; connect-src 'self' blob: data: https://cdnjs.cloudflare.com; img-src 'self' blob: data:; style-src 'self'; manifest-src 'self'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Filigrane</title>
+  <meta name="description" content="Filigrane anti-usurpation d'identité pour vos pièces justificatives, 100 % sur votre appareil.">
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Filigrane">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icone-180.png">
+  <link rel="icon" type="image/png" href="icone-192.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- écrans de démarrage de l'app installée (iPhone, clair / sombre) : outils/demarrage.swift -->
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1320x2868.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1320x2868-sombre.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1206x2622.png" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1206x2622-sombre.png" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1290x2796-sombre.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1179x2556-sombre.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1284x2778-sombre.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1170x2532-sombre.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1125x2436-sombre.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-1242x2688-sombre.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-828x1792-sombre.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) and (prefers-color-scheme: light)">
+  <link rel="apple-touch-startup-image" href="demarrage/demarrage-750x1334-sombre.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) and (prefers-color-scheme: dark)">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="entete">
+    <img src="icone-192.png" alt="" class="logo" width="44" height="44">
+    <div>
+      <h1>Filigrane</h1>
+      <p>Tout se passe sur cet appareil : aucun document n’est envoyé.</p>
+    </div>
+  </header>
+
+  <main class="grille">
+    <section class="groupe zone-install" id="install" hidden>
+      <div class="carte conseil">
+        <p><strong>L’installer comme une app :</strong> touche <span class="icone-partage" aria-label="Partager">⬆︎</span> Partager,
+          puis « Sur l’écran d’accueil ». Elle marchera aussi hors connexion.</p>
+        <button type="button" class="lien" id="install-fermer">OK</button>
+      </div>
+    </section>
+
+    <!-- un PDF par ligne (ou par groupe) : ce qui sera produit -->
+    <section class="groupe zone-docs" aria-labelledby="t-docs">
+      <h2 id="t-docs" class="titre-action">
+        <span>Fichiers à produire</span>
+        <button type="button" class="lien" id="selectionner" hidden>Sélectionner</button>
+      </h2>
+      <div class="carte">
+        <ul id="lots" class="liste" aria-live="polite"></ul>
+        <label class="ligne action" for="choisir">
+          <span class="plus" aria-hidden="true">＋</span> Ajouter des documents
+        </label>
+        <input type="file" id="choisir" accept="application/pdf,image/*,.heic,.heif" multiple class="invisible">
+      </div>
+      <div class="actions-selection" id="actions-selection" hidden>
+        <button type="button" id="reunir">Réunir en un PDF</button>
+        <button type="button" id="recto-verso">Recto + verso</button>
+        <button type="button" id="separer">Séparer</button>
+        <button type="button" id="retirer" class="destructif">Retirer</button>
+      </div>
+      <div class="carte suggestion" id="suggestion" hidden>
+        <p><strong>Le recto et le verso d’une même carte ?</strong><br>
+          Les deux photos l’une sous l’autre, sur une seule page A4.</p>
+        <div class="boutons">
+          <button type="button" id="suggestion-oui" class="petit-principal">Assembler</button>
+          <button type="button" id="suggestion-non" class="lien">Non merci</button>
+        </div>
+      </div>
+      <p class="note" id="note-docs"></p>
+    </section>
+
+    <section class="groupe zone-dest" aria-labelledby="t-dest">
+      <h2 id="t-dest">Envoi</h2>
+      <div class="carte">
+        <label class="ligne champ">
+          <span>Destinataire</span>
+          <input id="destinataire" list="liste-dest" placeholder="ex. Agence Immo Lille" autocomplete="off" enterkeyhint="next">
+        </label>
+        <div class="ligne recents" id="recents" hidden aria-label="Destinataires récents"></div>
+        <label class="ligne champ">
+          <span>Motif</span>
+          <input id="motif" list="liste-motifs" placeholder="ex. Dossier de location" autocomplete="off" enterkeyhint="done">
+        </label>
+        <div class="ligne champ">
+          <label for="avec-date">Date</label>
+          <div class="droite">
+            <input type="date" id="date" aria-label="Date affichée">
+            <input type="checkbox" id="avec-date" class="interrupteur" aria-label="Ajouter la date">
+          </div>
+        </div>
+      </div>
+      <datalist id="liste-dest"></datalist>
+      <datalist id="liste-motifs"></datalist>
+      <p class="note phrase" id="phrase"></p>
+    </section>
+
+    <section class="groupe zone-apercu" aria-labelledby="t-apercu">
+      <h2 id="t-apercu" class="titre-action">
+        <span>Aperçu</span>
+        <span class="boutons-apercu">
+          <button type="button" class="lien" id="comparer" aria-pressed="false">Comparer</button>
+          <button type="button" class="lien" id="tirage">Nouveau tirage</button>
+        </span>
+      </h2>
+      <div class="segmente vue" id="vue" role="radiogroup" aria-label="Présentation" hidden>
+        <label><input type="radio" name="vue" value="apercu" checked><span>Aperçu</span></label>
+        <label><input type="radio" name="vue" value="pages"><span>Pages</span></label>
+      </div>
+      <div class="apercu" id="cadre-apercu">
+        <div class="alerte" id="alerte" role="status" hidden>
+          <span aria-hidden="true">⚠︎</span> <span id="alerte-texte"></span>
+          <button type="button" id="alerte-bouton"></button>
+        </div>
+        <div class="etiquettes" id="etiquettes" hidden><span>Original</span><span>Filigrane</span></div>
+        <canvas id="apercu" role="img" aria-label="Aperçu du document filigrané"></canvas>
+        <div class="planche" id="planche" hidden></div>
+        <div class="calcul" id="calcul" hidden aria-hidden="true"></div>
+        <div class="pages" id="pages" hidden>
+          <button type="button" id="page-prec" aria-label="Page précédente">‹</button>
+          <span id="page-num"></span>
+          <button type="button" id="page-suiv" aria-label="Page suivante">›</button>
+        </div>
+      </div>
+      <div class="outils-pages" id="outils-pages" hidden>
+        <button type="button" id="pivoter-g" aria-label="Faire pivoter à gauche">⟲</button>
+        <button type="button" id="pivoter-d" aria-label="Faire pivoter à droite">⟳</button>
+        <button type="button" id="avant" aria-label="Déplacer avant">◀︎</button>
+        <button type="button" id="apres" aria-label="Déplacer après">▶︎</button>
+        <button type="button" id="retirer-page">Retirer la page</button>
+      </div>
+      <p class="note" id="note-apercu"></p>
+    </section>
+
+    <section class="groupe zone-reglages" aria-labelledby="t-reglages">
+      <h2 id="t-reglages">Filigrane</h2>
+      <div class="segmente" id="force" role="radiogroup" aria-label="Force du filigrane">
+        <label><input type="radio" name="force" value="discret"><span>Discret</span></label>
+        <label><input type="radio" name="force" value="standard"><span>Standard</span></label>
+        <label><input type="radio" name="force" value="marque"><span>Marqué</span></label>
+      </div>
+      <div class="carte espace">
+        <div class="ligne">
+          <span>Couleur</span>
+          <div class="pastilles" id="couleurs" role="radiogroup" aria-label="Couleur">
+            <button type="button" class="gris" data-couleur="#737373" aria-label="Gris"></button>
+            <button type="button" class="bleu" data-couleur="#1a40b3" aria-label="Bleu"></button>
+            <button type="button" class="rouge" data-couleur="#cc1a1a" aria-label="Rouge"></button>
+            <button type="button" class="noir" data-couleur="#000000" aria-label="Noir"></button>
+            <label class="pastille-autre" aria-label="Autre couleur"><input type="color" id="couleur-autre"></label>
+          </div>
+        </div>
+        <details class="details" id="details">
+          <summary class="ligne"><span>Réglages détaillés</span><span class="perso" id="perso">Personnalisé</span></summary>
+          <label class="ligne curseur"><span>Intensité</span><input type="range" id="opacite" min="0.08" max="0.85" step="0.01"><output for="opacite"></output></label>
+          <label class="ligne curseur"><span>Taille</span><input type="range" id="echelle" min="0.5" max="2" step="0.05"><output for="echelle"></output></label>
+          <label class="ligne curseur"><span>Densité</span><input type="range" id="densite" min="0.5" max="2" step="0.05"><output for="densite"></output></label>
+          <label class="ligne curseur"><span>Inclinaison</span><input type="range" id="angle" min="0" max="90" step="1"><output for="angle"></output></label>
+        </details>
+        <div class="ligne">
+          <span>Texte</span>
+          <div class="segmente petit" role="radiogroup" aria-label="Texte">
+            <label><input type="radio" name="style" value="ondule"><span>Ondulé</span></label>
+            <label><input type="radio" name="style" value="droit"><span>Droit</span></label>
+          </div>
+        </div>
+        <label class="ligne"><span>Deux diagonales croisées</span><input type="checkbox" id="diagonales" class="interrupteur"></label>
+        <label class="ligne"><span>Fond guilloché</span><input type="checkbox" id="guilloche" class="interrupteur"></label>
+        <label class="ligne"><span>Micro-texte</span><input type="checkbox" id="micro_texte" class="interrupteur"></label>
+        <button type="button" class="ligne action" id="defaut">Valeurs par défaut</button>
+      </div>
+      <p class="note">La couleur s’éclaircit toute seule sur les zones sombres (photo d’identité). Le micro-texte est une ligne
+        minuscule en haut et en bas, brouillée par une photocopie.</p>
+    </section>
+
+    <section class="groupe zone-taille" aria-labelledby="t-taille">
+      <h2 id="t-taille">Taille du fichier</h2>
+      <div class="segmente" role="radiogroup" aria-label="Taille du fichier">
+        <label><input type="radio" name="taille" value="normale"><span>Normale</span></label>
+        <label><input type="radio" name="taille" value="limitee"><span>Limitée</span></label>
+      </div>
+      <div class="carte" id="carte-cible" hidden>
+        <label class="ligne champ">
+          <span>Moins de</span>
+          <select id="cible">
+            <option value="500">500 Ko</option>
+            <option value="1024">1 Mo</option>
+            <option value="2048">2 Mo</option>
+            <option value="5120">5 Mo</option>
+            <option value="10240">10 Mo</option>
+          </select>
+        </label>
+      </div>
+      <p class="note" id="note-taille">Meilleure qualité.</p>
+    </section>
+  </main>
+
+  <div class="barre-action">
+    <p class="statut" id="statut" role="status" aria-live="polite"></p>
+    <progress id="progression" max="1" value="0" hidden></progress>
+    <button type="button" class="principal" id="filigraner" disabled>Filigraner</button>
+  </div>
+
+  <dialog id="resultats" aria-labelledby="t-resultats">
+    <div class="feuille">
+      <h2 id="t-resultats">Fichiers prêts</h2>
+      <ul class="liste carte" id="liste-resultats"></ul>
+      <p class="note" id="note-resultats"></p>
+      <button type="button" class="principal" id="tout-partager">Partager</button>
+      <button type="button" class="lien fermer" id="fermer-resultats">Terminé</button>
+    </div>
+  </dialog>
+</body>
+</html>
