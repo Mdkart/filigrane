@@ -145,11 +145,12 @@ export function afficherLots() {
   $('selectionner').textContent = etat.modeSelection ? 'OK' : 'Sélectionner';
   $('actions-selection').hidden = !etat.modeSelection;
   const coches = docsCoches();
-  $('reunir').disabled = coches.length < 2;
-  $('recto-verso').disabled = coches.length !== 2;
+  // seulement les actions possibles avec ce qui est coché (pas de boutons grisés)
+  $('reunir').hidden = coches.length < 2;
+  $('recto-verso').hidden = coches.length !== 2;
   $('recto-verso').textContent = rvCoche() ? 'Pages à la suite' : 'Recto + verso';
-  $('separer').disabled = !coches.some(d => lotDe(d.id).docs.length > 1);
-  $('retirer').disabled = !coches.length;
+  $('separer').hidden = !coches.some(d => lotDe(d.id).docs.length > 1);
+  $('retirer').hidden = !coches.length;
   $('suggestion').hidden = !etat.suggestion || etat.modeSelection;
   $('note-docs').textContent = !nbDocs ? 'PDF, photos (JPG, PNG, HEIC). Tu peux aussi glisser des fichiers ici.'
     : etat.modeSelection ? 'Coche des documents, puis choisis une action.'

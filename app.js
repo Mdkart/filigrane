@@ -14,6 +14,7 @@ import {
 } from './lots.js';
 import { pivoter, retirerOuRemettre, deplacerPage, afficherPlanche, choisirVue } from './planche.js';
 
+const tactile = matchMedia('(pointer: coarse)').matches;
 const motifsPredefinis = ['Dossier de location', 'Ouverture de compte bancaire', 'Dossier de prêt',
   'Notaire', 'Assurance', 'Employeur', 'Administration'];
 
@@ -146,6 +147,8 @@ export function majInterface() {
 
   afficherLots();
 
+  document.body.classList.toggle('avec-docs', etat.lots.length > 0);
+
   // sans document : l'accueil à la place de l'aperçu (l'exemple à la demande)
   const accueil = !etat.lots.length && !etat.voirExemple;
   $('accueil').hidden = !accueil;
@@ -161,7 +164,6 @@ export function majInterface() {
   $('planche').hidden = !pages;
   $('outils-pages').hidden = !pages;
   $('comparer').hidden = pages;
-  $('tirage').hidden = pages;
   $('pages').hidden = pages || $('pages').hidden;
   if (pages) $('alerte').hidden = true;
   $('comparer').setAttribute('aria-pressed', String(etat.comparer));
@@ -170,7 +172,7 @@ export function majInterface() {
   if (pages) afficherPlanche();
   $('note-apercu').textContent = !avecDocs ? 'Aperçu sur un document d’exemple. Ajoute un document pour voir le tien.'
     : pages ? (estRV(lotAffiche()) ? 'Recto + verso : seule la 1re page de chaque document est utilisée.'
-      : 'Touche une page puis : pivoter, déplacer, retirer. Double-clic : la page filigranée.')
+      : `Touche une page puis : pivoter, déplacer, retirer. ${tactile ? 'Touche-la deux fois' : 'Double-clic'} : la page filigranée.`)
     : etat.comparer ? 'Fais glisser la ligne : l’original à gauche, le filigrane à droite.' : '';
   $('note-apercu').hidden = !$('note-apercu').textContent;
 

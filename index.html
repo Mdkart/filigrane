@@ -154,7 +154,6 @@
         <span>Aperçu</span>
         <span class="boutons-apercu">
           <button type="button" class="lien" id="comparer" aria-pressed="false">Comparer</button>
-          <button type="button" class="lien" id="tirage">Nouveau tirage</button>
         </span>
       </h2>
       <div class="segmente vue" id="vue" role="radiogroup" aria-label="Présentation" hidden>
@@ -177,10 +176,10 @@
         </div>
       </div>
       <div class="outils-pages" id="outils-pages" hidden>
-        <button type="button" id="pivoter-g" aria-label="Faire pivoter à gauche">⟲</button>
-        <button type="button" id="pivoter-d" aria-label="Faire pivoter à droite">⟳</button>
-        <button type="button" id="avant" aria-label="Déplacer avant">◀︎</button>
-        <button type="button" id="apres" aria-label="Déplacer après">▶︎</button>
+        <button type="button" id="pivoter-g" aria-label="Faire pivoter à gauche">↺ Pivoter</button>
+        <button type="button" id="pivoter-d" aria-label="Faire pivoter à droite">Pivoter ↻</button>
+        <button type="button" id="avant" aria-label="Déplacer vers l’avant">← Avant</button>
+        <button type="button" id="apres" aria-label="Déplacer vers l’arrière">Après →</button>
         <button type="button" id="retirer-page">Retirer la page</button>
       </div>
       <p class="note" id="note-apercu"></p>
@@ -220,6 +219,7 @@
           <label class="ligne"><span>Deux diagonales croisées</span><input type="checkbox" id="diagonales" class="interrupteur"></label>
           <label class="ligne"><span>Fond guilloché</span><input type="checkbox" id="guilloche" class="interrupteur"></label>
           <label class="ligne"><span>Micro-texte</span><input type="checkbox" id="micro_texte" class="interrupteur"></label>
+          <button type="button" class="ligne action" id="tirage">Nouveau tirage (autre disposition)</button>
           <button type="button" class="ligne action" id="defaut">Valeurs par défaut</button>
           <p class="note dedans">La couleur s’éclaircit toute seule sur les zones sombres (photo d’identité). Le micro-texte est une
             ligne minuscule en haut et en bas, brouillée par une photocopie.</p>

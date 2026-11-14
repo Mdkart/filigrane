@@ -49,6 +49,7 @@ export function deplacerPage(sens) {
 
 const vignettesPages = new Map();  // « doc|index|quarts » → image (data URL)
 const vignettesDemandees = new Set();
+let dernierAppui = 0;  // planche : heure du dernier appui sur une page
 
 export function afficherPlanche() {
   const lot = lotAffiche();
@@ -86,11 +87,18 @@ export function afficherPlanche() {
       n.textContent = garde ? String(++numero) : ' ';
       b.setAttribute('aria-label', garde ? `Page ${numero}` : 'Page retirée');
       b.append(img, n);
-      b.onclick = () => { etat.pageChoisie = { doc: d.id, index: i }; afficherPlanche(); };
-      b.ondblclick = () => {
-        if (!garde) return;
-        const k = positionProduite(lot, d.id, i);
-        if (k >= 0) { etat.page = k; choisirVue('apercu'); }
+      // deux appuis rapprochés sur la même page : la page filigranée (dblclick ne survit pas au nouveau
+      // dessin de la planche après le premier appui, et Safari sur iPhone ne l'envoie pas toujours)
+      b.onclick = () => {
+        const meme = etat.pageChoisie?.doc === d.id && etat.pageChoisie?.index === i;
+        if (meme && garde && performance.now() - dernierAppui < 450) {
+          const k = positionProduite(lot, d.id, i);
+          if (k >= 0) { etat.page = k; choisirVue('apercu'); }
+          return;
+        }
+        dernierAppui = performance.now();
+        etat.pageChoisie = { doc: d.id, index: i };
+        afficherPlanche();
       };
       elements.push(b);
     }

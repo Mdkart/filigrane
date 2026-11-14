@@ -64,7 +64,7 @@ button, input, select { font: inherit; color: inherit; }
   max-width: 1100px; margin: 0 auto;
   display: grid; gap: 0 28px;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "install" "accueil" "docs" "dest" "reglages" "apercu";
+  grid-template-areas: "install" "accueil" "docs" "dest" "apercu" "reglages";  /* aperçu avant la force : on voit ce qu'elle change */
 }
 .zone-install { grid-area: install; }
 .zone-docs { grid-area: docs; }
@@ -194,7 +194,7 @@ details.groupe[open] summary::after { transform: rotate(90deg); }
 .doc { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; position: relative; min-height: 56px; }
 .doc .vignette {
   width: 34px; height: 44px; flex: none; border-radius: 4px; background: var(--champ); object-fit: cover;
-  box-shadow: 0 0 0 0.5px var(--separateur);
+  box-shadow: 0 0 0 1px var(--separateur), 0 1px 3px rgba(0, 0, 0, 0.15);  /* une page blanche reste visible */
 }
 .doc .infos { flex: 1; min-width: 0; cursor: pointer; }
 .doc .nom { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -324,7 +324,7 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
   flex: 1 1 auto; border: 0; border-radius: 10px; padding: 10px 12px; background: var(--carte); color: var(--accent);
   font-size: 15px; cursor: pointer;
 }
-.actions-selection button:disabled { color: var(--secondaire); opacity: 0.5; cursor: default; }
+.actions-selection button[hidden] { display: none; }
 .actions-selection .destructif { color: #d70015; }
 @media (prefers-color-scheme: dark) { .actions-selection .destructif { color: #ff6961; } }
 
@@ -376,7 +376,8 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
   border: 0; border-radius: 10px; padding: 9px 14px; background: var(--carte); color: var(--accent); font-size: 17px; cursor: pointer;
 }
 .outils-pages button:disabled { color: var(--secondaire); opacity: 0.5; cursor: default; }
-.outils-pages #retirer-page { font-size: 15px; margin-left: auto; }
+.outils-pages button { font-size: 15px; flex: 1 1 auto; }
+.planche button { touch-action: manipulation; }  /* deux appuis rapides : pas de zoom de Safari */
 
 /* Filigrane : styles tout prêts, réglages détaillés repliés */
 .zone-reglages .segmente { margin: 0 0 10px; }
@@ -394,7 +395,7 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
 .lot-titre .liens { display: flex; gap: 14px; margin-top: 2px; }
 .lot-titre .liens .lien { padding: 4px 0; font-size: 15px; }
 .apercu canvas[hidden] { display: none; }  /* « display: block » ci-dessus l'emporterait sur hidden */
-#pivoter-g, #pivoter-d { font-size: 22px; line-height: 1; }
+#pivoter-g, #pivoter-d { white-space: nowrap; }
 #page-num { white-space: nowrap; }
 
 /* Lignes masquées (date ou taille personnalisées) : display: flex l'emporterait sur hidden */
@@ -419,3 +420,9 @@ body.survol .zone-docs .carte { box-shadow: 0 0 0 3px var(--accent); }
 .champ.signale { animation: signale 0.5s ease-in-out 3; border-radius: 10px; }
 @keyframes signale { 50% { box-shadow: inset 0 0 0 2px var(--accent); } }
 @media (prefers-reduced-motion: reduce) { .champ.signale { animation: none; box-shadow: inset 0 0 0 2px var(--accent); } }
+
+/* En-tête réduit une fois des documents ajoutés : la place va au travail */
+body.avec-docs .entete p { display: none; }
+body.avec-docs .entete { margin-top: 10px; }
+body.avec-docs .entete .logo { width: 32px; height: 32px; border-radius: 8px; }
+body.avec-docs .entete h1 { font-size: 22px; }
